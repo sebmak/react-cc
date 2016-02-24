@@ -6,6 +6,18 @@ class CardNumber extends React.Component {
         super(props);
     }
 
+    componentDidMount() {
+        this.process(this.props.value);
+    }
+
+    shouldComponentUpdate() {
+        return false;
+    }
+
+    componentWillReceiveProps(props) {
+        this.process(props.value);
+    }
+
     detectCardType = (number) => {
         var re = {
             visa: /^4/,
@@ -33,11 +45,16 @@ class CardNumber extends React.Component {
     }
 
     handleKeypress = (e) => {
-        if(/[A-Za-z]/.test(e.key)) {
-            e.preventDefault();
-            return;
-        }
+        var val = String.fromCharCode(e.keyCode);
 
+        if(/[0-9]/.test(val)){
+            e.preventDefault();
+            var value = this.refs.form.textContent;
+
+            this.process(value, val);
+
+            this.props.onChange(this.refs.form.textContent);
+        }
     }
 
     split = (value, regex) => {
@@ -87,22 +104,84 @@ class CardNumber extends React.Component {
         }
     }
 
-    handleKeyup = (e) => {
-        if([16,17,18,91].indexOf(e.which) > -1){
-            return;
+    getCurrentCursorPosition = (node, offset) => {
+        node = node;
+        offset = offset;
+
+        var nodeIndex = Array.prototype.indexOf.call(node.parentNode.parentNode.children, node.parentNode);
+
+        var characterPositon = 0;
+        var currentNode = 0;
+        while(currentNode < nodeIndex) {
+            characterPositon += node.parentNode.parentNode.children[currentNode].textContent.length;
+            currentNode++;
         }
-        var value = this.refs.form.textContent;
+        return characterPositon + offset;
+    }
 
-        this.refs.form.innerHTML = this.format(value);
-
+    setCursor = (position) => {
         var range = document.createRange();
-        range.selectNodeContents(this.refs.form);
-        range.collapse(false);
         var sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
 
-        this.props.onChange(this.refs.form.textContent);
+        if(this.refs.form.children.length > 0) {
+            var cursorNode = this.refs.form.children[0].childNodes[0];
+            var cursorPosition = cursorNode.textContent.length;
+
+            if(cursorPosition >= position) {
+                cursorPosition = position;
+            } else {
+                var i = 1;
+                var positionLeft = position - cursorPosition;
+                while(positionLeft >= 0) {
+                    if(!this.refs.form.children[i]) {
+                        cursorPosition = cursorNode.textContent.length;
+                        break;
+                    };
+                    cursorNode = this.refs.form.children[i].childNodes[0];
+                    positionLeft = positionLeft - cursorNode.textContent.length;
+                    if(positionLeft <= 0) {
+                        cursorPosition = cursorNode.textContent.length + positionLeft;
+                        break;
+                    }
+                    i++;
+                }
+
+            }
+
+            range.setStart(cursorNode,cursorPosition);
+            range.setEnd(cursorNode,cursorPosition);
+
+            sel.removeAllRanges();
+            sel.addRange(range);
+        } else {
+            range.setStart(this.refs.form.childNodes[0] || this.refs.form, position);
+            range.setEnd(this.refs.form.childNodes[0] || this.refs.form, position);
+
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
+    }
+
+    process = (value, val) => {
+        if(value !== '' || val) {
+            var sel = window.getSelection();
+            if(sel.rangeCount > 0) {
+                var position = this.getCurrentCursorPosition(sel.anchorNode,sel.anchorOffset);
+                var range = sel.getRangeAt(0);
+                if(!range.collapsed) {
+                    position = this.getCurrentCursorPosition(range.startContainer, range.startOffset);
+
+                    var end = range.toString().length - 1 + position;
+                    value = [value.slice(0, position), value.slice(end+1, value.length)].join('');
+                }
+            }
+            value = [value.slice(0, position), val, value.slice(position)].join('')
+            this.refs.form.innerHTML = this.format(value);
+            position++;
+            if(position) {
+                this.setCursor(position);
+            }
+        }
     }
 
     clearPlaceholder = () => {
@@ -123,7 +202,7 @@ class CardNumber extends React.Component {
 
     render() {
         return (
-            <div onFocus={this.clearPlaceholder} onBlur={this.setPlaceholder} {...this.props} ref="form" contentEditable={true} onKeyUp={this.handleKeyup} onKeyPress={this.handleKeypress}>{this.renderPlaceholder()}</div>
+            <div onFocus={this.clearPlaceholder} onBlur={this.setPlaceholder} {...this.props} ref="form" contentEditable={true} onKeyDown={this.handleKeypress}>{this.renderPlaceholder()}</div>
         )
     }
 
@@ -135,7 +214,8 @@ CardNumber.propTypes = {
 
 CardNumber.defaultProps = {
     onChange: function() {},
-    placeholder:''
+    placeholder:'',
+    value: ''
 }
 
 export default CardNumber;
