@@ -10,7 +10,6 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-
         #target span {
             display: inline-block;
             margin-right: .5em;
@@ -18,11 +17,15 @@
     </style>
   </head>
   <body>
+    <h1>Credit Card Input Form</h1>
+    <hr>
+    <h3>CardNumber Form</h3>
     <div id="target"></div>
+    <hr>
+    <h1>Coming Soon...</h1>
     <script src="https://fb.me/react-0.14.7.js"></script>
     <script src="https://fb.me/react-dom-0.14.7.js"></script>
-    <script>var react = React;</script>
-    <script src="../dist/CreditCard.js"></script>
+    <script src="https://npmcdn.com/react-cc@0.1.7/dist/CreditCard.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function() {
               ReactDOM.render(React.createElement(CreditCard.CardNumber, {placeholder:'CC#',onChange:function(val) {console.log(val)}}), document.getElementById('target'));
