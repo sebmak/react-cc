@@ -1,1 +1,1 @@
-export CardNumber from 'CardNumber';
+export CardNumber from './CardNumber';
