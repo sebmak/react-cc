@@ -2,8 +2,8 @@ var path = require('path');
 
 module.exports = {
     externals: {
-        react: 'react',
-        'react-dom': 'react-dom',
+        react: 'React',
+        'react-dom': 'ReactDOM',
     },
     output: {
         filename: 'CreditCard.js',
