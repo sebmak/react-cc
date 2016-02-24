@@ -46,6 +46,9 @@ class CardNumber extends React.Component {
 
     handleKeypress = (e) => {
         var val = String.fromCharCode(e.keyCode);
+        if(/[A-Za-z]/.test(val) && !e.metaKey && !e.altKey && !e.ctrlKey) {
+            e.preventDefault();
+        }
 
         if(/[0-9]/.test(val)){
             e.preventDefault();
