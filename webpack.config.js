@@ -9,8 +9,7 @@ module.exports = {
     output: {
         path: __dirname+'/dist/',
         filename: '[name].js',
-        libraryTarget: 'var',
-        library: '[name]'
+        libraryTarget: 'umd'
     },
     module: {
         loaders: [

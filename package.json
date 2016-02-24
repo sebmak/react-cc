@@ -1,11 +1,17 @@
 {
-  "name": "react-credit-card",
-  "version": "0.0.1",
+  "name": "react-cc",
+  "version": "0.1.0",
   "description": "A Credit Card input field for react",
-  "main": "CC.js",
+  "main": "dist/cc.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "files": [
+        "dist/",
+        "lib/",
+        "LICENSE",
+        "PATENTS"
+  ],
   "author": "",
   "license": "ISC",
   "repository": "sebmak/react-cc",
