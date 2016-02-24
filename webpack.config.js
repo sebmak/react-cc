@@ -3,14 +3,15 @@ module.exports = {
         cc: __dirname+"/src/cc.jsx"
     },
     externals: {
-        react: 'React',
-        'react-dom': 'ReactDOM',
+        react: 'react',
+        'react-dom': 'react-dom',
     },
     output: {
         path: __dirname+'/dist/',
         filename: '[name].js',
-        libraryTarget: 'umd'
+        libraryTarget: 'commonjs2'
     },
+    plugins: [],
     module: {
         loaders: [
             {
