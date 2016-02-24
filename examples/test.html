@@ -21,10 +21,11 @@
     <div id="target"></div>
     <script src="https://fb.me/react-0.14.7.js"></script>
     <script src="https://fb.me/react-dom-0.14.7.js"></script>
-    <script src="../../dist/cc.js"></script>
+    <script>var react = React;</script>
+    <script src="../dist/CreditCard.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function() {
-          ReactDOM.render(React.createElement(cc.default, {placeholder:'CC#',onChange:function(val) {console.log(val)}}), document.getElementById('target'));
+          ReactDOM.render(React.createElement(CreditCard.CardNumber, {placeholder:'CC#',onChange:function(val) {console.log(val)}}), document.getElementById('target'));
       }, false);
     </script>
   </body>

@@ -1,15 +1,19 @@
+var path = require('path');
+
 module.exports = {
-    entry: {
-        cc: __dirname+"/src/cc.jsx"
-    },
     externals: {
         react: 'react',
         'react-dom': 'react-dom',
     },
     output: {
-        path: __dirname+'/dist/',
-        filename: '[name].js',
-        libraryTarget: 'commonjs2'
+        filename: 'CreditCard.js',
+        libraryTarget: 'var',
+        library: 'CreditCard'
+    },
+    resolve: {
+      root: [
+        path.resolve('./lib')
+      ]
     },
     plugins: [],
     module: {

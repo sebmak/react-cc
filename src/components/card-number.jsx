@@ -1,6 +1,6 @@
 import React from 'react';
 
-class CC extends React.Component {
+class CardNumber extends React.Component {
 
     constructor(props) {
         super(props);
@@ -129,13 +129,13 @@ class CC extends React.Component {
 
 }
 
-CC.propTypes = {
+CardNumber.propTypes = {
     onChange: React.PropTypes.func
 }
 
-CC.defaultProps = {
+CardNumber.defaultProps = {
     onChange: function() {},
     placeholder:''
 }
 
-export default CC;
+export default CardNumber;
