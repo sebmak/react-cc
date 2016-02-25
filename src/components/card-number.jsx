@@ -109,8 +109,9 @@ class CardNumber extends React.Component {
     }
 
     getCurrentCursorPosition = (node, offset) => {
-        node = node;
-        offset = offset;
+        if(node === this.refs.form) {
+        	return offset;
+        }
 
         var nodeIndex = Array.prototype.indexOf.call(node.parentNode.parentNode.children, node.parentNode);
 

@@ -1,6 +1,6 @@
 {
     "name": "react-cc",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "description": "A Credit Card input field for react",
     "main": "lib/CreditCard.js",
     "scripts": {
